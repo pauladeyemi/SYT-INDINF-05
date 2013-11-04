@@ -8,33 +8,48 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX 2
 
 typedef struct
 {
-    char* vorname;
-    char* nachname;
-} PERSON;
-typedef struct
-{
-    char adresse[256];
+    char *adresse;
 } ADRESSE;
+
 typedef struct
 {
-    PERSON person;
-    ADRESSE Adresse;
-    
-} ADRESSBUCH;
+    char *vorname;
+    char *nachname;
+    ADRESSE add;
+} PERSON;
 
-void setName(char*,char*);
-void setAdresse(char*);
+PERSON pers[MAX];
+int counter=0;
+
+void setPerson(char*,char*,char*);
 
 int main(int argc, const char * argv[])
 {
+    char vorname[50];
+    char nachname[50];
+    char addresse[50];
+
+    while(counter<MAX){
+        scanf("%s",&(*vorname));
+        scanf("%s",&(*nachname));
+        scanf("%s",&(*addresse));
+        setPerson(vorname,nachname,addresse);
+        
+    }
+    printf("%s",pers[counter-1].vorname);
+    
     
 }
 
-void setName(char* firstname,char* lastname){
-    PERSON pers;
-    pers.vorname=firstname;
-    pers.nachname=lastname;
+void setPerson(char *firstname,char *lastname,char *adresse){
+    ADRESSE adr;
+    adr.adresse=adresse;
+    pers[counter].vorname=firstname;
+    pers[counter].nachname=lastname;
+    pers[counter].add=adr;
+    counter++;
 }
