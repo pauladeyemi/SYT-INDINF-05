@@ -61,6 +61,7 @@ int main(int argc, const char * argv[])
                 printf("Falsche Eingabe\n");
                 break;
         }
+        fflush(stdin);
     } while (check==0);
 
     free(pers);
