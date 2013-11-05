@@ -12,44 +12,99 @@
 
 typedef struct
 {
-    char *adresse;
+    char adresse[101];
 } ADRESSE;
 
 typedef struct
 {
-    char *vorname;
-    char *nachname;
+    char vorname[50];
+    char nachname[50];
     ADRESSE add;
 } PERSON;
 
-PERSON pers[MAX];
-int counter=0;
+int size=0;
 
-void setPerson(char*,char*,char*);
+void addPerson(PERSON*);
+void deletePerson(PERSON*);
+void showPersons(PERSON*);
 
 int main(int argc, const char * argv[])
 {
-    char vorname[50];
-    char nachname[50];
-    char addresse[50];
+    
+    int check=0;
+    char c;
+    
+    PERSON *pers=(PERSON*)malloc(size*sizeof(PERSON));
+    
+    
+    do {
+    
+        printf("Auswahl:\n(a)Neue Person Hinzufügen\n(d)Person löschen\n(s)Alle Personen anzeigen\n(e)Beenden\n");
+        scanf("%s",&c);
+        fflush(stdin);
+    
+        switch (c) {
+            case 'a':
+                pers= (PERSON*)realloc(pers, (size+1)*sizeof(PERSON));
+                addPerson(pers);
+                break;
+            case 'd':
+                deletePerson(pers);
+                break;
+            case 's':
+                showPersons(pers);
+                break;
+            case 'e':
+                check=1;
+                break;
+            default:
+                printf("Falsche Eingabe\n");
+                break;
+        }
+    } while (check==0);
 
-    while(counter<MAX){
-        scanf("%s",&(*vorname));
-        scanf("%s",&(*nachname));
-        scanf("%s",&(*addresse));
-        setPerson(vorname,nachname,addresse);
-        
+    free(pers);
+    
+}
+
+void addPerson(PERSON *p){
+    printf("Addresse: ");
+    scanf("%s",p[size].add.adresse);
+    printf("Vorname: ");
+    scanf("%s",p[size].vorname);
+    printf("Nachname: ");
+    scanf("%s",p[size].nachname);
+    
+    size++;
+}
+void deletePerson(PERSON* p){
+    int e;
+    int i;
+    printf("Index und Personen:\n");
+    for (i=0; i<size; i++) {
+        printf("%d : %s, %s, %s \n",i,p[i].vorname,p[i].nachname,p[i].add.adresse);
     }
-    printf("%s",pers[counter-1].vorname);
     
+    printf("Wievielten Eintrag Löschen?\nNr: ");
+    scanf("%d",&e);
+    fflush(stdin);
+    while (e<size-1)
+        p[e] = p[++e];
+    size--;
     
+}
+void showPersons(PERSON *p){
+    int i;
+    if(size==0){
+        printf("Addressbuch ist leer.\n");
+    }else{
+        for (i=0; i<size; i++) {
+            printf("Vorname: %s, Nachname: %s, Addresse: %s \n",p[i].vorname,p[i].nachname,p[i].add.adresse);
+        }
+    }
 }
 
-void setPerson(char *firstname,char *lastname,char *adresse){
-    ADRESSE adr;
-    adr.adresse=adresse;
-    pers[counter].vorname=firstname;
-    pers[counter].nachname=lastname;
-    pers[counter].add=adr;
-    counter++;
-}
+
+
+
+
