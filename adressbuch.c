@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 2
 
 typedef struct
 {
@@ -22,8 +21,10 @@ typedef struct
     ADRESSE add;
 } PERSON;
 
+//Globale Variablen
 int size=0;
 
+//Prototypen
 void addPerson(PERSON*);
 void deletePerson(PERSON*);
 void showPersons(PERSON*);
@@ -34,6 +35,7 @@ int main(int argc, const char * argv[])
     int check=0;
     char c;
     
+    
     PERSON *pers=(PERSON*)malloc(size*sizeof(PERSON));
     
     
@@ -43,13 +45,17 @@ int main(int argc, const char * argv[])
         scanf("%s",&c);
         fflush(stdin);
     
+        
         switch (c) {
             case 'a':
+                //Reservierten Speicher erhöhen
                 pers= (PERSON*)realloc(pers, (size+1)*sizeof(PERSON));
                 addPerson(pers);
                 break;
             case 'd':
                 deletePerson(pers);
+                //Reservierten Speicher reduzieren
+                pers= (PERSON*)realloc(pers, (size)*sizeof(PERSON));
                 break;
             case 's':
                 showPersons(pers);
@@ -63,11 +69,18 @@ int main(int argc, const char * argv[])
         }
         fflush(stdin);
     } while (check==0);
-
+    
+    //Reservierten speicher Freigeben
     free(pers);
     
 }
-
+/**
+ * Funktion: addPerson
+ * Fragt User nach Addresse,Vor- und Zuname einer neuen Person
+ *
+ * Parameter:
+ * *p: Pointer in den eine neue Person hinzugefügt werden soll.
+ */
 void addPerson(PERSON *p){
     printf("Addresse: ");
     scanf("%s",p[size].add.adresse);
@@ -78,12 +91,21 @@ void addPerson(PERSON *p){
     
     size++;
 }
+/**
+ * Funktion: deletePerson
+ * Fragt User welcher Eintrag gelöscht werden soll
+ *
+ * Parameter:
+ * *p: Pointer aus dem eine Person gelöscht werden soll
+ */
 void deletePerson(PERSON* p){
     int e;
     int i;
+    
+    //Zeigt alle Person und ihren index an
     printf("Index und Personen:\n");
     for (i=0; i<size; i++) {
-        printf("%d : %s, %s, %s \n",i,p[i].vorname,p[i].nachname,p[i].add.adresse);
+        printf("%d : %s %s, %s \n",i,p[i].vorname,p[i].nachname,p[i].add.adresse);
     }
     
     printf("Wievielten Eintrag Löschen?\nNr: ");
@@ -94,6 +116,13 @@ void deletePerson(PERSON* p){
     size--;
     
 }
+/**
+ * Funktion: showPerson
+ * Zeigt alle Personen an
+ *
+ * Parameter:
+ * *p: Auszugebender Pointer
+ */
 void showPersons(PERSON *p){
     int i;
     if(size==0){
