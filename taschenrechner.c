@@ -40,7 +40,7 @@ int main(int argc, const char * argv[])
     }
     
     result = (*fp[opn])(a,b);
-    printf("Das Ergebnis ist %d",result);
+    printf("Das Ergebnis ist %d.\n",result);
     
      return EXIT_SUCCESS;
 }
